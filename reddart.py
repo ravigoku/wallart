@@ -3,6 +3,7 @@ import regex as re
 from pprint import pprint
 import json
 import requests
+import time
 
 
 
@@ -25,17 +26,34 @@ def createReddit(dictionary):
     #print reddit.user.me()
     return reddit  
 
+def pullsubreddit(url):
+    r = requests.get(url) # response object
+    data = json.loads(r.text)
+    
+    while 'message' in data.keys():
+        time.sleep(2)
+        r = requests.get(r'https://www.reddit.com/r/Art/.json') # response object
+        data = json.loads(r.text)
+    return r
+    
+    
+
 auth0 = credentials('C:\\Users\\inzon_000\\Documents\\python\\apiSecrets\\wallart.txt.')
 reddit = createReddit(auth0)
 
 #NSFW Results?
-r = requests.get(r'https://www.reddit.com/r/Art/.json') # response object
+#r = requests.get(r'https://www.reddit.com/r/Art/.json') # response object
+#data = json.loads(r.text)
+r = pullsubreddit(r'https://www.reddit.com/r/Art/.json')
 data = json.loads(r.text)
 print data.keys()
 print r.text
     # we can look through the result using http://jsoneditoronline.org/
     # sometimes error {"message": "Too Many Requests", "error": 429}
 
+for datum in data['data']['children']:
+    if datum['data']['link_flair_text'] == 'Artwork':
+        print datum['data']['title'] 
 # Requirements text link_flair_text: "Artwork "
 
 #print data['data']['children'][0]
