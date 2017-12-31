@@ -7,6 +7,7 @@ import time
 import random
 from _ast import Num
 import shutil
+import ctypes
 
 def credentials(textfile):
     f = open(textfile)
@@ -70,10 +71,20 @@ print "number: " + str(num)
 choice = wallpapers[num]
 url= choice['picture']
 
+reg = re.compile(r'\.jpg|\.jpeg|\.tiff|\.tif|\.gif|\.bmp|\.png|\.bpg')
+extension = reg.search(url)
 
+r = requests.get(url,stream=True)
+path = 'C:\\Users\\inzon_000\\Pictures\\temp'+extension.group()
 
-            
-            
+if r.status_code == 200:
+    with open(path,'wb') as f:
+        r.raw.decode_content = True
+        shutil.copyfileobj(r.raw,f)
+
+SPI_SETDESKWALLPAPER = 20
+ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, path, 0)
+
         
 # Requirements text link_flair_text: "Artwork "
 
