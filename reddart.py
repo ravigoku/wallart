@@ -5,8 +5,6 @@ import json
 import requests
 import time
 
-
-
 def credentials(textfile):
     f = open(textfile)
     words = f.read()
@@ -36,14 +34,11 @@ def pullsubreddit(url):
         data = json.loads(r.text)
     return r
     
-    
-
+wallpapers = list()
 auth0 = credentials('C:\\Users\\inzon_000\\Documents\\python\\apiSecrets\\wallart.txt.')
 reddit = createReddit(auth0)
 
 #NSFW Results?
-#r = requests.get(r'https://www.reddit.com/r/Art/.json') # response object
-#data = json.loads(r.text)
 r = pullsubreddit(r'https://www.reddit.com/r/Art/.json')
 data = json.loads(r.text)
 print data.keys()
@@ -52,8 +47,16 @@ print r.text
     # sometimes error {"message": "Too Many Requests", "error": 429}
 
 for datum in data['data']['children']:
-    if datum['data']['link_flair_text'] == 'Artwork':
-        print datum['data']['title'] 
+    if (datum['data']['link_flair_text'] == 'Artwork' and 'preview' in datum['data']):
+        images = datum['data']['preview']['images']
+        width = images[0]['source']['width']
+        height = images[0]['source']['height']
+        
+        if (width > 1024 and float(width)/height > 1.2):
+            print datum['data']['title']
+            print "width: " + str(width) + " height: " + str(height) + " ratio: " + str(float(width)/height)
+            print
+        
 # Requirements text link_flair_text: "Artwork "
 
 #print data['data']['children'][0]
