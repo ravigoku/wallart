@@ -8,6 +8,7 @@ import random
 from _ast import Num
 import shutil
 import ctypes
+import subprocess
 
 def credentials(textfile):
     f = open(textfile)
@@ -75,16 +76,17 @@ reg = re.compile(r'\.jpg|\.jpeg|\.tiff|\.tif|\.gif|\.bmp|\.png|\.bpg')
 extension = reg.search(url)
 
 r = requests.get(url,stream=True)
-path = 'C:\\Users\\inzon_000\\Pictures\\temp'+extension.group()
+path = 'C:\\Users\\inzon_000\\Pictures\\wallpaper\\temp'+extension.group()
 
 if r.status_code == 200:
     with open(path,'wb') as f:
         r.raw.decode_content = True
         shutil.copyfileobj(r.raw,f)
 
+check = subprocess.call('C:\\Program Files (x86)\\Easy2Convert Software\\JPG to BMP\\jpg2bmp.exe -i C:\\Users\\inzon_000\\Pictures\\wallpaper\\temp.jpg - o C:\\Users\\inzon_000\\Pictures\\wallpaper\\')
 SPI_SETDESKWALLPAPER = 20
 ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, path, 0)
-
+# only works with bmp files, so we need to find another way to set wallpaper
         
 # Requirements text link_flair_text: "Artwork "
 
