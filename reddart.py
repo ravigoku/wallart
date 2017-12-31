@@ -1,5 +1,10 @@
 import praw
 import regex as re
+from pprint import pprint
+import json
+import requests
+
+
 
 def credentials(textfile):
     f = open(textfile)
@@ -17,8 +22,17 @@ def createReddit(dictionary):
             user_agent = 'WallArt by /u/ravigoku',
             username = dictionary['username'])
     
-    print reddit.user    
+    #print reddit.user.me()
+    return reddit  
 
 auth0 = credentials('C:\\Users\\inzon_000\\Documents\\python\\apiSecrets\\wallart.txt.')
+reddit = createReddit(auth0)
 
-createReddit(auth0)
+#subreddit = reddit.subreddit('Showerthoughts')
+
+#NSFW Results?
+
+r = requests.get(r'http://reddit.com/user/ravigoku/comments/.json') # response object
+data = r.json()
+print data.keys()
+print r.text
