@@ -28,11 +28,14 @@ def createReddit(dictionary):
 auth0 = credentials('C:\\Users\\inzon_000\\Documents\\python\\apiSecrets\\wallart.txt.')
 reddit = createReddit(auth0)
 
-#subreddit = reddit.subreddit('Showerthoughts')
-
 #NSFW Results?
-
-r = requests.get(r'http://reddit.com/user/ravigoku/comments/.json') # response object
-data = r.json()
+r = requests.get(r'https://www.reddit.com/r/Art/.json') # response object
+data = json.loads(r.text)
 print data.keys()
 print r.text
+    # we can look through the result using http://jsoneditoronline.org/
+    # sometimes error {"message": "Too Many Requests", "error": 429}
+
+# Requirements text link_flair_text: "Artwork "
+
+#print data['data']['children'][0]
