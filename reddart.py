@@ -4,6 +4,9 @@ from pprint import pprint
 import json
 import requests
 import time
+import random
+from _ast import Num
+import shutil
 
 def credentials(textfile):
     f = open(textfile)
@@ -52,10 +55,25 @@ for datum in data['data']['children']:
         width = images[0]['source']['width']
         height = images[0]['source']['height']
         
-        if (width > 1024 and float(width)/height > 1.2):
-            print datum['data']['title']
-            print "width: " + str(width) + " height: " + str(height) + " ratio: " + str(float(width)/height)
-            print
+        if (width > 1024 and float(width)/height > 1.3):
+            title = datum['data']['title']
+            picture = images[0]['source']['url']
+            wallpapers.append({'title':title,'picture':picture})
+            print title
+            print picture
+            print str(float(width)/height)
+            print 
+            
+num = random.randint(0,len(wallpapers)-1)
+print "number: " + str(num)
+
+choice = wallpapers[num]
+url= choice['picture']
+
+
+
+            
+            
         
 # Requirements text link_flair_text: "Artwork "
 
