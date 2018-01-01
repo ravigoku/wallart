@@ -76,18 +76,24 @@ reg = re.compile(r'\.jpg|\.jpeg|\.tiff|\.tif|\.gif|\.bmp|\.png|\.bpg')
 extension = reg.search(url)
 
 r = requests.get(url,stream=True)
-path = 'C:\\Users\\inzon_000\\Pictures\\wallpaper\\temp'+extension.group()
+path = 'C:\\Users\\inzon_000\\Pictures\\temp1'+extension.group()
 
 if r.status_code == 200:
     with open(path,'wb') as f:
         r.raw.decode_content = True
         shutil.copyfileobj(r.raw,f)
 
-check = subprocess.call('C:\\Program Files (x86)\\Easy2Convert Software\\JPG to BMP\\jpg2bmp.exe -i C:\\Users\\inzon_000\\Pictures\\wallpaper\\temp.jpg - o C:\\Users\\inzon_000\\Pictures\\wallpaper\\')
+check = subprocess.call('C:\\Program Files (x86)\\Easy2Convert Software\\JPG to BMP\\jpg2bmp.exe -i C:\\Users\\inzon_000\\Pictures\\temp1.jpg - o C:\\Users\\inzon_000\\Pictures\\')
 SPI_SETDESKWALLPAPER = 20
 ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, path, 0)
 # only works with bmp files, so we need to find another way to set wallpaper
-        
-# Requirements text link_flair_text: "Artwork "
 
+
+check = subprocess.call('reg add "HKEY_CURRENT_USER\\Control Panel\\Desktop" /v Wallpaper /t REG_SZ /d C:\\Users\\inzon_000\\Pictures\\temp1.bmp /f')
+print("Done with reg add")
+time.sleep(1)
+check = subprocess.call('rundll32.exe user32.dll, UpdatePerUserSystemParameters')
+print("Done with refresh")
+# Requirements text link_flair_text: "Artwork "
+ 
 #print data['data']['children'][0]
