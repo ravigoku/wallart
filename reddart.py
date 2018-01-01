@@ -1,11 +1,9 @@
 import praw
 import regex as re
-from pprint import pprint
 import json
 import requests
 import time
 import random
-from _ast import Num
 import shutil
 import ctypes
 import subprocess
@@ -94,6 +92,3 @@ print("Done with reg add")
 time.sleep(1)
 check = subprocess.call('rundll32.exe user32.dll, UpdatePerUserSystemParameters')
 print("Done with refresh")
-# Requirements text link_flair_text: "Artwork "
- 
-#print data['data']['children'][0]
